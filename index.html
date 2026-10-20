@@ -59,7 +59,7 @@
           <div class="status"><span class="emoji">⚙️</span><span><strong>設備異常 | Equipment Abnormality</strong><small>停機、故障、設備警報 | Downtime, failure, or equipment alarm</small></span></div>
         </section>
         <div class="actions"><button id="submit" class="primary" type="button" disabled>送出通報 | Submit Report →</button></div>
-        <p class="local-note">工程師訂閱已接 OneSignal；異常通報送出功能仍需安全的通知後端，尚未發送異常推播。</p>
+        <p class="local-note">送出通報時會呼叫通知後端；首次送出需輸入通報授權碼。</p>
       </div>
     </section>
 
@@ -69,8 +69,8 @@
       <div class="row"><span>異常狀態<br><small>Status</small></span><strong>設備異常<br>Equipment Abnormality</strong></div>
       <div class="row"><span>通知方式<br><small>Notification</small></span><strong>Web Push</strong></div>
       <div class="row"><span>通知對象<br><small>Recipients</small></span><strong id="recipientPreview">尚未連接推播服務<br>Push not connected</strong></div>
-      <div class="note"><span class="note-icon">🔔</span><div><strong>工程師通知 | Engineer Notification</strong><p>正式接通後，送出通報即可通知已訂閱的工程師，不需輸入補充內容。</p></div></div>
-      <p class="disclaimer">OneSignal 訂閱功能已接入；異常通報自動推播與通報紀錄仍需另外接上安全後端。</p>
+      <div class="note"><span class="note-icon">🔔</span><div><strong>工程師通知 | Engineer Notification</strong><p>送出通報後，系統會將所選設備的異常訊息推播給已訂閱的工程師。</p></div></div>
+      <p class="disclaimer">推播成功與否以後端回應為準；目前不建立通報資料庫或歷史紀錄。</p>
     </aside>
   </main>
 
@@ -88,7 +88,8 @@
 /* Public settings only. Never put passwords or private API keys here. */
 window.APP_CONFIG = {
   appName: '4F SMT 異常通報',
-  pushEnabled: false, // 異常通報的伺服器端推播尚未設定；不可在前端放 REST API Key。
+  pushEnabled: true,
+  pushEndpoint: 'https://vzalqvwozdhzlxfzdymt.supabase.co/functions/v1/send-smt-alert'
   machineGroups: [
     { name: '雷刻站 | Laser Marking', machines: [
       { id: 'laser-new', name: '新機 | New Machine' },
@@ -304,14 +305,58 @@ window.APP_CONFIG = {
   });
   document.getElementById('closeSubscriptionDone').addEventListener('click', () => dialog.close());
   otherEquipment.addEventListener('input', updatePreview);
-  submitButton.addEventListener('click', () => {
+  // Never embed the private backend key in this public HTML.
+  // Ask the operator for the shared authorization key when first submitting.
+  let alertApiKey = '';
+  submitButton.addEventListener('click', async () => {
     const selected = getSelectedNames();
-    if (!selected.length) return;
-    if (!config.pushEnabled) {
-      showToast(`已選擇 ${selected.join('、')}，但異常推播後端尚未連接；目前不會通知工程師。`);
+    if (!selected.length || submitButton.disabled) return;
+    if (!config.pushEnabled || !config.pushEndpoint) {
+      showToast('推播後端尚未設定，未送出通知。');
       return;
     }
-    showToast('推播後端設定尚未完成。');
+
+    if (!alertApiKey) {
+      const enteredKey = window.prompt('請輸入通報系統管理者提供的通報授權碼：');
+      if (!enteredKey || !enteredKey.trim()) {
+        showToast('未輸入授權碼，通報未送出。');
+        return;
+      }
+      alertApiKey = enteredKey.trim();
+    }
+
+    const originalText = submitButton.textContent;
+    submitButton.disabled = true;
+    submitButton.textContent = '送出中… | Sending…';
+    try {
+      const response = await fetch(config.pushEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': alertApiKey
+        },
+        body: JSON.stringify({
+          title: '4F SMT 設備異常通報',
+          message: `設備異常通報：${selected.join('、')}`
+        })
+      });
+
+      let result = {};
+      try { result = await response.json(); } catch (_) {}
+      if (!response.ok || result.success !== true) {
+        if (response.status === 401) alertApiKey = '';
+        throw new Error(result.error || `HTTP ${response.status}`);
+      }
+
+      showToast('異常通報已送出，推播服務已接受請求。');
+      console.info('SMT alert accepted by push backend:', result);
+    } catch (error) {
+      console.error('SMT alert submission failed:', error);
+      showToast(`通報失敗：${error && error.message ? error.message : '請稍後再試'}`);
+    } finally {
+      submitButton.disabled = getSelectedNames().length === 0;
+      submitButton.textContent = originalText;
+    }
   });
   renderMachines();
   updateSubscriptionStatus();
