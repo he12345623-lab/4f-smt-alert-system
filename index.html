@@ -40,6 +40,25 @@
     <div class="header-actions"><span class="topmeta">產線作業端 | Production Operator</span><button class="subscribe-button" id="openSubscription" type="button">🔔 工程師訂閱</button></div>
   </header>
 
+<section id="reportResult" style="display:none;max-width:720px;margin:24px auto;padding:24px;background:white;border-radius:16px;font-family:Arial,sans-serif">
+  <h1>本次通報機台</h1>
+  <pre id="reportContent" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:17px;line-height:1.8"></pre>
+</section>
+
+<script>
+(function () {
+  const params = new URLSearchParams(window.location.search);
+  const report = params.get("report");
+
+  if (report) {
+    document.getElementById("reportContent").textContent = report;
+    document.getElementById("reportResult").style.display = "block";
+    document.querySelector("main.layout").style.display = "none";
+    document.querySelector(".topbar").style.display = "none";
+  }
+})();
+</script>
+
   <main class="layout">
     <section class="panel report-panel">
       <div class="panel-head"><div><h1>建立異常通報</h1><p class="en-title">Create Abnormality Report</p></div><div class="step"><b>1</b> 通報流程 | Report</div></div>
