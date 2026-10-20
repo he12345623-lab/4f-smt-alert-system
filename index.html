@@ -41,7 +41,8 @@
   </header>
 
 <section id="reportResult" style="display:none;max-width:720px;margin:24px auto;padding:24px;background:white;border-radius:16px;font-family:Arial,sans-serif">
-  <h1>本次通報機台</h1>
+  <h1>設備異常詳情</h1>
+  <p style="color:#6c7890;margin:8px 0 14px">通報時間：<strong id="reportTime">時間未提供</strong></p>
   <pre id="reportContent" style="white-space:pre-wrap;overflow-wrap:anywhere;font-size:17px;line-height:1.8"></pre>
 </section>
 
@@ -49,19 +50,15 @@
 (function () {
   const params = new URLSearchParams(window.location.search);
   const report = params.get("report");
-  
-if (report) {
-  const list = report.replace(/^設備異常通報：?\s*/u, "");
+  const time = params.get("time");
+  if (!report) return;
+
   document.getElementById("reportContent").textContent =
-    list || "目前沒有新的異常通報。";
+    report.replace(/^設備異常通報：?\s*/u, "") || "目前沒有新的異常通報。";
+  document.getElementById("reportTime").textContent = time || "時間未提供";
   document.getElementById("reportResult").style.display = "block";
   document.querySelector("main.layout").style.display = "none";
   document.querySelector(".topbar").style.display = "flex";
-} else {
-  document.getElementById("reportResult").style.display = "none";
-}
-
-  }
 })();
 </script>
 
@@ -354,6 +351,12 @@ window.APP_CONFIG = {
     submitButton.disabled = true;
     submitButton.textContent = '送出中… | Sending…';
     try {
+      const reportTime = new Date().toLocaleString('zh-TW', { hour12: false });
+      const message = `設備異常通報：\n${selected.map((name, i) => `${i + 1}. ${name}`).join('\n')}`;
+      const detailUrl = new URL(window.location.pathname, window.location.origin);
+      detailUrl.searchParams.set('report', message);
+      detailUrl.searchParams.set('time', reportTime);
+
       const response = await fetch(config.pushEndpoint, {
         method: 'POST',
         headers: {
@@ -362,7 +365,8 @@ window.APP_CONFIG = {
         },
         body: JSON.stringify({
           title: '4F SMT 設備異常通報',
-          message: `設備異常通報：\n${selected.map((name, i) => `${i + 1}. ${name}`).join('\n')}`
+          message,
+          url: detailUrl.toString()
         })
       });
 
