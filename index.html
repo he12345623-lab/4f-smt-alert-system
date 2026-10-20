@@ -6,6 +6,19 @@
   <meta name="theme-color" content="#1769e0">
   <meta name="description" content="4F SMT 設備異常通報與工程師推播訂閱">
   <title>4F SMT 異常通報 | 4F SMT Abnormality Report</title>
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(async function (OneSignal) {
+      await OneSignal.init({
+        appId: "d3161db8-fd0f-48f2-a256-d868de32935d",
+        serviceWorkerPath: "/4f-smt-alert-system/OneSignalSDKWorker.js",
+        serviceWorkerParam: { scope: "/4f-smt-alert-system/" }
+      });
+      window.__oneSignalReady = true;
+    });
+  </script>
+
   <style>
 :root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif;color:#17233b;background:#f3f6fb;font-synthesis:none;text-rendering:optimizeLegibility;--blue:#1769e0;--navy:#14284b;--muted:#6c7890;--line:#e3e9f2;--soft:#f7f9fc}*{box-sizing:border-box}body{margin:0;min-height:100vh}.topbar{min-height:76px;background:var(--navy);color:#fff;padding:14px clamp(16px,4vw,54px);display:flex;align-items:center;justify-content:space-between;gap:18px;box-shadow:0 3px 12px #14284b20}.brand{display:flex;align-items:center;gap:12px;font-weight:750;letter-spacing:.2px}.brand small{font-size:12px;font-weight:500;color:#c5d2e8}.logo{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#1769e0;font-size:23px;font-weight:800}.header-actions{display:flex;align-items:center;gap:18px}.topmeta{font-size:13px;color:#d5deed}.subscribe-button,.secondary,.icon-button{font:inherit;cursor:pointer}.subscribe-button{border:1px solid #7596c5;background:#203d68;color:white;border-radius:9px;padding:10px 14px;font-weight:700}.layout{width:min(1240px,calc(100% - 32px));margin:30px auto 50px;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(290px,.8fr);gap:22px;align-items:start}.panel{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 28px #14284b08;overflow:hidden}.panel-head{padding:25px 28px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:16px}.panel-head h1{font-size:25px;margin:0;font-weight:800}.en-title{margin:5px 0 0;color:var(--muted);font-size:13px}.step{font-size:12px;color:#50627e;white-space:nowrap;display:flex;align-items:center;gap:8px}.step b{display:grid;place-items:center;background:#e7f0ff;color:var(--blue);border-radius:50%;width:28px;height:28px}.content{padding:25px 28px 28px}.section{margin-bottom:27px}.section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.section-title h2,.preview h2{font-size:16px;margin:0;font-weight:800}.section-title>span{font-size:11px;color:#63718a;background:#f1f4f8;padding:5px 8px;border-radius:6px;white-space:nowrap}.section-help{font-size:13px;color:var(--muted);margin:0 0 14px}.machine-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.machine-button{border:1px solid #dce4f0;border-radius:11px;background:#fff;padding:15px 14px;text-align:left;min-height:62px;color:#243653;font:inherit;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:10px;transition:border-color .15s,background .15s,box-shadow .15s}.machine-button:before{content:"";width:17px;height:17px;flex:0 0 17px;border:1.5px solid #b5c1d3;border-radius:5px;background:#fff}.machine-button:hover{border-color:#8ab2f5;background:#f8fbff}.machine-button.selected{border-color:var(--blue);background:#edf4ff;color:#1457b7;box-shadow:0 0 0 2px #1769e014}.machine-button.selected:before{content:"✓";display:grid;place-items:center;background:var(--blue);border-color:var(--blue);color:#fff;font-size:12px;font-weight:800}.status{display:flex;align-items:center;gap:13px;padding:16px;border:1px solid #f0d7ba;background:#fff9f2;border-radius:11px}.emoji{font-size:24px}.status strong,.status small{display:block}.status strong{font-size:14px}.status small{font-size:12px;color:#7b6b59;margin-top:5px;line-height:1.5}.actions{margin-top:25px}.primary{font:inherit;border:0;border-radius:10px;background:var(--blue);color:#fff;font-weight:750;padding:14px 18px;cursor:pointer;box-shadow:0 5px 12px #1769e025}.primary:hover:not(:disabled){background:#1058c6}.primary:disabled{cursor:not-allowed;background:#b9c5d8;box-shadow:none}.actions .primary{width:100%}.local-note{color:#8994a6;font-size:11px;line-height:1.6;margin:13px 0 0;text-align:center}.preview{padding:24px 22px}.preview h2{margin-bottom:19px}.preview h2 small{font-size:12px;color:var(--muted);font-weight:500}.row{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;padding:15px 0;border-bottom:1px solid var(--line)}.row>span{font-size:13px;color:#6a7890;line-height:1.6}.row>span small{font-size:11px}.row strong{text-align:right;font-size:13px;line-height:1.6;max-width:62%;overflow-wrap:anywhere}.note{display:flex;gap:12px;margin-top:20px;padding:15px;background:#edf5ff;border-radius:11px;color:#214574}.note-icon{font-size:21px}.note strong{font-size:13px}.note p{font-size:12px;line-height:1.65;margin:6px 0 0;color:#526b8e}.disclaimer{font-size:11px;color:#8a95a7;line-height:1.7;margin:17px 0 0}.subscription-dialog{width:min(540px,calc(100% - 28px));max-height:min(86vh,760px);padding:0;border:0;border-radius:16px;box-shadow:0 24px 80px #07162e45;color:#17233b}.subscription-dialog::backdrop{background:#0d1b32a8;backdrop-filter:blur(3px)}.modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;padding:22px 24px;border-bottom:1px solid var(--line)}.modal-head h2{margin:0;font-size:20px}.modal-head p{margin:5px 0 0;font-size:12px;color:var(--muted)}.icon-button{border:0;background:#f1f4f8;border-radius:8px;width:34px;height:34px;color:#4b5c75;font-size:17px}.modal-body{padding:20px 24px 22px}.modal-info{background:#f4f8ff;border:1px solid #dce9ff;border-radius:10px;padding:13px 14px}.modal-info strong{font-size:13px}.modal-info p{font-size:12px;line-height:1.65;color:#667894;margin:6px 0 0}.subscription-actions{display:flex;gap:8px;margin:15px 0 10px}.secondary{border:1px solid #dce4f0;background:#fff;color:#425573;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700}.secondary:hover{background:#f4f7fb}.subscription-list{display:none}.subscription-choice{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 6px}.subscription-choice button{min-height:88px;border:1px solid #dce4f0;border-radius:12px;background:#fff;color:#243653;font:inherit;font-weight:800;cursor:pointer;padding:16px 12px}.subscription-choice button strong{display:block;font-size:15px}.subscription-choice button small{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-top:7px}.subscription-choice button.active{border-color:var(--blue);background:#edf4ff;color:#1457b7;box-shadow:0 0 0 2px #1769e014}.subscription-choice button:hover{border-color:#8ab2f5;background:#f8fbff}.modal-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--line);margin-top:17px;padding-top:16px}.modal-footer span{font-size:12px;color:var(--muted)}.modal-footer .primary{padding:11px 15px;font-size:13px}.modal-footer .primary:disabled{opacity:.6;cursor:default}.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#172b4d;color:#fff;padding:12px 18px;border-radius:10px;box-shadow:0 10px 30px #0c1b3333;font-size:13px;max-width:calc(100% - 28px);z-index:10;transition:opacity .2s,transform .2s}.toast.show{opacity:1;transform:translate(-50%,0)}@media(max-width:850px){.layout{grid-template-columns:1fr;margin-top:18px}.preview{order:2}.topmeta{display:none}}@media(max-width:520px){.subscription-choice{grid-template-columns:1fr}.subscription-choice button{min-height:72px}.topbar{padding:12px 14px;align-items:flex-start}.brand{font-size:13px;gap:8px}.brand small{display:block;margin-top:3px}.logo{width:36px;height:36px;border-radius:10px}.header-actions{gap:0}.subscribe-button{font-size:12px;padding:9px 10px}.layout{width:calc(100% - 20px);gap:14px}.panel-head{padding:20px 17px 17px;align-items:flex-start}.panel-head h1{font-size:21px}.step{font-size:0}.step b{font-size:12px}.content{padding:20px 16px}.machine-grid{grid-template-columns:1fr}.machine-button{min-height:54px}.preview{padding:20px 17px}.subscription-list{grid-template-columns:1fr}.modal-head,.modal-body{padding-left:17px;padding-right:17px}.modal-footer{align-items:flex-start;flex-direction:column}.modal-footer .primary{width:100%}}
 
@@ -39,7 +52,7 @@
           <div class="status"><span class="emoji">⚙️</span><span><strong>設備異常 | Equipment Abnormality</strong><small>停機、故障、設備警報 | Downtime, failure, or equipment alarm</small></span></div>
         </section>
         <div class="actions"><button id="submit" class="primary" type="button" disabled>送出通報 | Submit Report →</button></div>
-        <p class="local-note">目前為介面測試版，送出只會在本機顯示測試結果，尚未發送真實推播。</p>
+        <p class="local-note">工程師訂閱已接 OneSignal；異常通報送出功能仍需安全的通知後端，尚未發送異常推播。</p>
       </div>
     </section>
 
@@ -50,16 +63,16 @@
       <div class="row"><span>通知方式<br><small>Notification</small></span><strong>Web Push</strong></div>
       <div class="row"><span>通知對象<br><small>Recipients</small></span><strong id="recipientPreview">尚未連接推播服務<br>Push not connected</strong></div>
       <div class="note"><span class="note-icon">🔔</span><div><strong>工程師通知 | Engineer Notification</strong><p>正式接通後，送出通報即可通知已訂閱的工程師，不需輸入補充內容。</p></div></div>
-      <p class="disclaimer">推播服務尚未連接。此版本不會發送真實通知，也不會保存通報紀錄。</p>
+      <p class="disclaimer">OneSignal 訂閱功能已接入；異常通報自動推播與通報紀錄仍需另外接上安全後端。</p>
     </aside>
   </main>
 
   <dialog id="subscriptionDialog" class="subscription-dialog" aria-labelledby="subscriptionTitle">
     <div class="modal-head"><div><h2 id="subscriptionTitle">工程師訂閱設定</h2><p>Engineer Subscription Settings</p></div><button id="closeSubscription" class="icon-button" type="button" aria-label="關閉">✕</button></div>
     <div class="modal-body">
-      <div class="modal-info"><strong>工程師推播訂閱方式</strong><p>不需逐台選擇機台。選擇「訂閱全部」即可接收所有站點的異常通知；選擇「取消訂閱」則停止接收所有機台通知。此版本先保存本機測試設定，尚未連接真實推播。</p></div>
+      <div class="modal-info"><strong>工程師推播訂閱方式</strong><p>不需逐台選擇機台。選擇「訂閱全部」會向 OneSignal 註冊此瀏覽器的推播；選擇「取消訂閱」會關閉此瀏覽器的推播。此動作只設定此裝置，不代表其他工程師的裝置。</p></div>
       <div class="subscription-choice"><button id="subscribeAll" type="button"><strong>🔔 訂閱全部</strong><small>Subscribe to all equipment</small></button><button id="unsubscribeAll" type="button"><strong>🔕 取消訂閱</strong><small>Unsubscribe from all notifications</small></button></div>
-      <div class="modal-footer"><span id="subscriptionStatus">目前狀態：預設訂閱全部 | Subscribed to all</span><button id="closeSubscriptionDone" class="primary" type="button">完成 | Done</button></div>
+      <div class="modal-footer"><span id="subscriptionStatus">目前狀態：尚未確認 OneSignal 訂閱 | Subscription not yet verified</span><button id="closeSubscriptionDone" class="primary" type="button">完成 | Done</button></div>
     </div>
   </dialog>
 
@@ -68,7 +81,7 @@
 /* Public settings only. Never put passwords or private API keys here. */
 window.APP_CONFIG = {
   appName: '4F SMT 異常通報',
-  pushEnabled: false,
+  pushEnabled: false, // 異常通報的伺服器端推播尚未設定；不可在前端放 REST API Key。
   machineGroups: [
     { name: '雷刻站 | Laser Marking', machines: [
       { id: 'laser-new', name: '新機 | New Machine' },
@@ -172,15 +185,36 @@ window.APP_CONFIG = {
     subscribeAllButton.classList.toggle('active', isSubscribed);
     unsubscribeAllButton.classList.toggle('active', !isSubscribed);
     recipientPreview.innerHTML = isSubscribed
-      ? '所有已訂閱工程師<br>All subscribed engineers'
-      : '目前無訂閱對象<br>No active subscribers';
+      ? '本裝置：設定為訂閱<br>This device: opt-in selected'
+      : '本裝置：設定為取消訂閱<br>This device: opt-out selected';
   }
-  function saveSubscriptionState() {
-    try { localStorage.setItem('4f-smt-subscribed', String(isSubscribed)); } catch (_) {}
+  async function saveSubscriptionState() {
     updateSubscriptionStatus();
-    showToast(isSubscribed
-      ? '測試設定已儲存：已訂閱全部機台。尚未連接真實推播。'
-      : '測試設定已儲存：已取消全部訂閱。尚未連接真實推播。');
+    if (!window.__oneSignalReady || !window.OneSignalDeferred) {
+      showToast('OneSignal 尚在載入，請稍候幾秒再試。');
+      return;
+    }
+    try {
+      await new Promise((resolve, reject) => {
+        window.OneSignalDeferred.push(async function (OneSignal) {
+          try {
+            if (isSubscribed) {
+              await OneSignal.User.PushSubscription.optIn();
+              showToast('已送出訂閱要求。若瀏覽器詢問通知權限，請按「允許」。');
+            } else {
+              await OneSignal.User.PushSubscription.optOut();
+              showToast('此瀏覽器已取消推播訂閱。');
+            }
+            resolve();
+          } catch (error) { reject(error); }
+        });
+      });
+      try { localStorage.setItem('4f-smt-subscribed', String(isSubscribed)); } catch (_) {}
+      updateSubscriptionStatus();
+    } catch (error) {
+      console.error('OneSignal subscription error:', error);
+      showToast('訂閱操作未完成。請確認網站權限，並查看 OneSignal Audience 訂閱狀態。');
+    }
   }
   document.getElementById('openSubscription').addEventListener('click', () => {
     updateSubscriptionStatus();
@@ -197,10 +231,10 @@ window.APP_CONFIG = {
     const selected = getSelectedNames();
     if (!selected.length) return;
     if (!config.pushEnabled) {
-      showToast(`介面測試：已選擇 ${selected.join('、')}。目前尚未發送真實推播。`);
+      showToast(`已選擇 ${selected.join('、')}，但異常推播後端尚未連接；目前不會通知工程師。`);
       return;
     }
-    showToast('推播設定尚未完成，請先完成服務串接。');
+    showToast('推播後端設定尚未完成。');
   });
   try {
     const stored = localStorage.getItem('4f-smt-subscribed');
