@@ -337,7 +337,7 @@ window.APP_CONFIG = {
         },
         body: JSON.stringify({
           title: '4F SMT 設備異常通報',
-          message: `設備異常通報：${selected.join('、')}`
+          message: `設備異常通報：\n${selected.map((name, i) => `${i + 1}. ${name}`).join('\n')}`
         })
       });
 
