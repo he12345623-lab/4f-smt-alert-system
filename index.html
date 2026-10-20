@@ -49,12 +49,18 @@
 (function () {
   const params = new URLSearchParams(window.location.search);
   const report = params.get("report");
+  
+if (report) {
+  const list = report.replace(/^設備異常通報：?\s*/u, "");
+  document.getElementById("reportContent").textContent =
+    list || "目前沒有新的異常通報。";
+  document.getElementById("reportResult").style.display = "block";
+  document.querySelector("main.layout").style.display = "none";
+  document.querySelector(".topbar").style.display = "flex";
+} else {
+  document.getElementById("reportResult").style.display = "none";
+}
 
-  if (report) {
-    document.getElementById("reportContent").textContent = report;
-    document.getElementById("reportResult").style.display = "block";
-    document.querySelector("main.layout").style.display = "none";
-    document.querySelector(".topbar").style.display = "none";
   }
 })();
 </script>
