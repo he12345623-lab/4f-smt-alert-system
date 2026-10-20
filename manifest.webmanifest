@@ -1,0 +1,14 @@
+{
+  "name": "4F SMT 異常通報 | 4F SMT Abnormality Report",
+  "short_name": "4F SMT 通報",
+  "description": "4F SMT 設備異常通報網站",
+  "lang": "zh-Hant",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f6fb",
+  "theme_color": "#14284b",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
